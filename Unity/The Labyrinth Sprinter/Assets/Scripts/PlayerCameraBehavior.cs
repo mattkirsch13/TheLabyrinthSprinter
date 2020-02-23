@@ -50,7 +50,6 @@ public class PlayerCameraBehavior : MonoBehaviour
                 currentFOV -= 0.5f;
             }
         }
-        Debug.Log(currentFOV);
         
         GetComponent<Camera>().fieldOfView = currentFOV;
     }

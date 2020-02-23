@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class Maze : MonoBehaviour
 {
-    public int mazeWidth;
-    public float cellWidth;
-
     public Vector3 spawnPosition;
     public Quaternion spawnRotation;
 
@@ -16,12 +13,19 @@ public class Maze : MonoBehaviour
     public GameObject cornerWay;
     public GameObject straightWay;
     public GameObject threeWay;
-    public GameObject fourWay;
+    public GameObject fourWay1;
+    public GameObject fourWay2;
+    public GameObject fourWay3;
+
+    public int mazeWidth;
+    public float cellWidth;
 
     // Start is called before the first frame update
     void Start()
     {
         Debug.Log("Generating Maze");
+
+        //cellWidth = spawn.GetComponentInChildren<MeshRenderer>(true).bounds.size.x;
 
         MazeData maze = new MazeData(mazeWidth);
         maze.generateMaze();
@@ -57,7 +61,8 @@ public class Maze : MonoBehaviour
             default:
                 throw new System.Exception("No maze exit found");
         }
-        Instantiate(spawn, (Vector3.back * cellWidth) * (maze.m_exitConnectorIdx % mazeWidth) + (Vector3.left * cellWidth) * (maze.m_exitConnectorIdx / mazeWidth) + exitOffset, spawnRotation, mazeObj.transform);
+        Instantiate(spawn, (Vector3.back * cellWidth) * (maze.m_exitConnectorIdx % mazeWidth) + (Vector3.left * cellWidth) * (maze.m_exitConnectorIdx / mazeWidth) + (exitOffset * cellWidth), spawnRotation, mazeObj.transform);
+
         Debug.Log("Done");
     }
 
@@ -115,22 +120,22 @@ public class Maze : MonoBehaviour
                 }
                 else if (cellData.nConnect != null && cellData.eConnect != null)
                 {
-                    var obj = Instantiate(cornerWay, position, Quaternion.Euler(0, -90, 0));
+                    var obj = Instantiate(cornerWay, position, Quaternion.Euler(0, 0, 0));
                     obj.transform.parent = mazeObj.transform;
                 }
                 else if (cellData.eConnect != null && cellData.sConnect != null)
                 {
-                    var obj = Instantiate(cornerWay, position, Quaternion.Euler(0, 0, 0));
+                    var obj = Instantiate(cornerWay, position, Quaternion.Euler(0, 90, 0));
                     obj.transform.parent = mazeObj.transform;
                 }
                 else if (cellData.sConnect != null && cellData.wConnect != null)
                 {
-                    var obj = Instantiate(cornerWay, position, Quaternion.Euler(0, 90, 0));
+                    var obj = Instantiate(cornerWay, position, Quaternion.Euler(0, 180, 0));
                     obj.transform.parent = mazeObj.transform;
                 }
                 else if (cellData.wConnect != null && cellData.nConnect != null)
                 {
-                    var obj = Instantiate(cornerWay, position, Quaternion.Euler(0, 180, 0));
+                    var obj = Instantiate(cornerWay, position, Quaternion.Euler(0, -90, 0));
                     obj.transform.parent = mazeObj.transform;
                 }
                 else
@@ -141,22 +146,22 @@ public class Maze : MonoBehaviour
             case 3:
                 if (cellData.nConnect == null)
                 {
-                    var obj = Instantiate(threeWay, position, Quaternion.Euler(0, 90, 0));
+                    var obj = Instantiate(threeWay, position, Quaternion.Euler(0, 0, 0));
                     obj.transform.parent = mazeObj.transform;
                 }
                 else if (cellData.sConnect == null)
                 {
-                    var obj = Instantiate(threeWay, position, Quaternion.Euler(0, -90, 0));
+                    var obj = Instantiate(threeWay, position, Quaternion.Euler(0, 180, 0));
                     obj.transform.parent = mazeObj.transform;
                 }
                 else if (cellData.eConnect == null)
                 {
-                    var obj = Instantiate(threeWay, position, Quaternion.Euler(0, 180, 0));
+                    var obj = Instantiate(threeWay, position, Quaternion.Euler(0, 90, 0));
                     obj.transform.parent = mazeObj.transform;
                 }
                 else if (cellData.wConnect == null)
                 {
-                    var obj = Instantiate(threeWay, position, Quaternion.Euler(0, 0, 0));
+                    var obj = Instantiate(threeWay, position, Quaternion.Euler(0, -90, 0));
                     obj.transform.parent = mazeObj.transform;
                 }
                 else
@@ -167,7 +172,7 @@ public class Maze : MonoBehaviour
             case 4:
                 if (cellData.nConnect != null && cellData.sConnect != null && cellData.eConnect != null && cellData.wConnect != null)
                 {
-                    var obj = Instantiate(fourWay, position, Quaternion.Euler(0, 0, 0));
+                    var obj = Instantiate(fourWay1, position, Quaternion.Euler(0, 0, 0));
                     obj.transform.parent = mazeObj.transform;
                 }
                 else

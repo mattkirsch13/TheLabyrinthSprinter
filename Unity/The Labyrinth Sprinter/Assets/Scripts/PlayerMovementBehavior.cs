@@ -8,13 +8,17 @@ public class PlayerMovementBehavior : MonoBehaviour
     public float maxSpeed;
     public Transform PlayerBodyTransf;
     public Rigidbody PlayerRigidBody;
+    public GameObject maze;
 
     float sprintMod = 1.75f;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        float cellWidth = maze.GetComponent<Maze>().cellWidth;
+        float totalWidth = maze.GetComponent<Maze>().mazeWidth * cellWidth;
+        Vector3 startPos = new Vector3((-1) * ((totalWidth / 2) - (cellWidth / 2)), 10.0f, (-1) * ((totalWidth / 2) - (cellWidth / 2)));
+        PlayerRigidBody.position = startPos;
     }
 
     // Update is called once per frame
@@ -54,7 +58,7 @@ public class PlayerMovementBehavior : MonoBehaviour
 
         if (Mathf.Abs(PlayerRigidBody.velocity.magnitude) > 1e-2f)
         {
-            //Debug.Log("Moving at: " + Mathf.Abs(PlayerRigidBody.velocity.magnitude));
+            Debug.Log("Moving at: " + Mathf.Abs(PlayerRigidBody.velocity.magnitude));
         }
 
         PlayerRigidBody.velocity = PlayerRigidBody.velocity * Mathf.Clamp(0.90f, 0.0f, 0.999f);        
