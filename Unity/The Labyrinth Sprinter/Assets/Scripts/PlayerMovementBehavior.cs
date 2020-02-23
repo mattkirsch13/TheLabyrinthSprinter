@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class PlayerMovementBehavior : MonoBehaviour
 {
-    public float maxSpeed = 0.5f;
+    public float movAcceleration;
+    public float maxSpeed;
     public Transform PlayerBodyTransf;
-    //CapsuleCollider PlayerBodyCollider;
+    public Rigidbody PlayerRigidBody;
+
+    float sprintMod = 1.75f;
 
     // Start is called before the first frame update
     void Start()
@@ -23,15 +26,37 @@ public class PlayerMovementBehavior : MonoBehaviour
         bool yPos = Input.GetButton("Right");
         bool yNeg = Input.GetButton("Left");
 
+        bool sprint = Input.GetButton("Sprint");
+
         // Create a "Desired" Movement Vector
         Vector3 movementIn = new Vector3(yPos && yNeg ? 0.0f : yPos ? 1.0f : yNeg ? -1.0f : 0.0f, 0.0f, xPos && xNeg ? 0.0f : xPos ? 1.0f : xNeg ? -1.0f : 0.0f);
-        movementIn = maxSpeed * Time.deltaTime * Vector3.Normalize(movementIn);
-        Debug.Log("Moving x: " + movementIn.x + " z: " + movementIn.z);
 
+        if (sprint)
+        {
+            movementIn = movAcceleration * sprintMod * Vector3.Normalize(movementIn);
+            
+            // Move based off those components
+            if (Mathf.Abs(PlayerRigidBody.velocity.magnitude) < maxSpeed)
+            {
+                PlayerRigidBody.AddRelativeForce(movementIn, ForceMode.Acceleration);
+            }
+        }
+        else
+        {
+            movementIn = movAcceleration * Vector3.Normalize(movementIn);
+            
+            // Move based off those components
+            if (Mathf.Abs(PlayerRigidBody.velocity.magnitude) < sprintMod * maxSpeed)
+            {
+                PlayerRigidBody.AddRelativeForce(movementIn, ForceMode.Acceleration);
+            }
+        }
 
-        // Check what components are viable
+        if (Mathf.Abs(PlayerRigidBody.velocity.magnitude) > 1e-2f)
+        {
+            //Debug.Log("Moving at: " + Mathf.Abs(PlayerRigidBody.velocity.magnitude));
+        }
 
-        // Move based off those components
-        PlayerBodyTransf.Translate(movementIn);
+        PlayerRigidBody.velocity = PlayerRigidBody.velocity * Mathf.Clamp(0.90f, 0.0f, 0.999f);        
     }
 }
