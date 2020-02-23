@@ -17,6 +17,10 @@ public class Maze : MonoBehaviour
     public GameObject fourWay1;
     public GameObject fourWay2;
     public GameObject fourWay3;
+    public GameObject gate1;
+    public GameObject gate2;
+    public GameObject gate3;
+    public GameObject gate4;
 
     public ButtonScript button1;
     public ButtonScript button2;
@@ -29,7 +33,7 @@ public class Maze : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //Instantiate(spawn, getRoomLocation(mazeWidth / 2, mazeWidth / 2), spawnRotation, mazeObj.transform);
+        
     }
 
     // Update is called once per frame
@@ -41,6 +45,10 @@ public class Maze : MonoBehaviour
             generateMaze();
             generated = true;
             freeButtons();
+            gate1.GetComponent<Animator>().SetBool("isOpen", true);
+            gate2.GetComponent<Animator>().SetBool("isOpen", true);
+            gate3.GetComponent<Animator>().SetBool("isOpen", true);
+            gate4.GetComponent<Animator>().SetBool("isOpen", true);
         }
     }
 
