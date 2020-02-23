@@ -74,7 +74,7 @@ MonoBehaviour:
   m_MinSize: {x: 911, y: 563}
   m_MaxSize: {x: 22006, y: 14042}
   vertical: 1
-  controlID: 77
+  controlID: 144
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -147,7 +147,7 @@ MonoBehaviour:
   m_MinSize: {x: 911, y: 442}
   m_MaxSize: {x: 22006, y: 10021}
   vertical: 0
-  controlID: 78
+  controlID: 145
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -193,7 +193,7 @@ MonoBehaviour:
   m_MinSize: {x: 201, y: 442}
   m_MaxSize: {x: 4001, y: 8042}
   vertical: 1
-  controlID: 167
+  controlID: 103
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -213,8 +213,8 @@ MonoBehaviour:
     y: 0
     width: 260
     height: 752
-  m_MinSize: {x: 202, y: 221}
-  m_MaxSize: {x: 4002, y: 4021}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 15}
   m_Panes:
   - {fileID: 15}
@@ -317,8 +317,8 @@ MonoBehaviour:
     y: 384
     width: 907
     height: 368
-  m_MinSize: {x: 201, y: 221}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 18}
   m_Panes:
   - {fileID: 18}
@@ -379,9 +379,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
-      m_LastClickedID: 0
-      m_ExpandedIDs: 1ae5daff3ae5daffe2e5daff90cadeff94cadeffba75dfff607edfffde5bfdffa8acfeff4caffeff72fbffff743300008e330000
+      m_SelectedIDs: d0b0f1ff2688f1ffc687f1ff
+      m_LastClickedID: -948282
+      m_ExpandedIDs: c2a7feffcea7feffdaa7feffaeaafeff72fbffff7a33000094330000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -442,7 +442,7 @@ MonoBehaviour:
     m_PrefName: Preview_InspectorPreview
   m_PreviewWindow: {fileID: 0}
   m_LastInspectedObjectInstanceID: -1
-  m_LastVerticalScrollValue: 0
+  m_LastVerticalScrollValue: 100
 --- !u!114 &17
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -482,20 +482,20 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Models
+    - Assets/blender_assets
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Models
+  - Assets/blender_assets
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\repos\TheLabyrinthSprinter\Unity\The Labyrinth Sprinter
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: d2910000
-    m_LastClickedID: 37330
-    m_ExpandedIDs: 00000000c4910000c691000000ca9a3b
+    m_SelectedIDs: 12950000
+    m_LastClickedID: 38162
+    m_ExpandedIDs: 000000000c95000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -523,7 +523,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000c4910000c6910000
+    m_ExpandedIDs: 000000000c950000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -704,9 +704,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -278.24664, y: 15.412464, z: 100.025375}
+    m_Target: {x: 201.785, y: -131.84325, z: 73.15256}
     speed: 2
-    m_Value: {x: -278.24664, y: 15.412464, z: 100.025375}
+    m_Value: {x: 201.785, y: -131.84325, z: 73.15256}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -752,13 +752,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.32222152, y: 0.33722883, z: -0.12402452, w: -0.8758914}
+    m_Target: {x: 0.22781926, y: 0.55135196, z: -0.15983453, w: 0.7865704}
     speed: 2
-    m_Value: {x: -0.32220253, y: 0.337209, z: -0.124017216, w: -0.8758398}
+    m_Value: {x: 0.22780438, y: 0.55131596, z: -0.15982409, w: 0.78651905}
   m_Size:
-    m_Target: 4.8105364
+    m_Target: 253.60043
     speed: 2
-    m_Value: 4.8105364
+    m_Value: 253.60043
   m_Ortho:
     m_Target: 0
     speed: 2

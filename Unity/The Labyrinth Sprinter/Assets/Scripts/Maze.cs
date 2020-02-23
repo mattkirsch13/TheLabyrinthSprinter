@@ -18,19 +18,56 @@ public class Maze : MonoBehaviour
     public GameObject fourWay2;
     public GameObject fourWay3;
 
+    public ButtonScript button1;
+    public ButtonScript button2;
+    public ButtonScript button3;
+
     public int mazeWidth;
     public float cellWidth;
 
+    bool generated = false;
     // Start is called before the first frame update
     void Start()
     {
+        //Instantiate(spawn, getRoomLocation(mazeWidth / 2, mazeWidth / 2), spawnRotation, mazeObj.transform);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (ButtonScript.pressed && !generated)
+        {
+            mazeWidth = (int)ButtonScript.difficulty;
+            generateMaze();
+            generated = true;
+            freeButtons();
+        }
+    }
+
+    void freeButtons()
+    {
+        button1.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+        button2.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+        button3.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+        button1.GetComponent<Rigidbody>().AddForce(getExplosionVector() * 20.0f);
+        button2.GetComponent<Rigidbody>().AddForce(getExplosionVector() * 20.0f);
+        button3.GetComponent<Rigidbody>().AddForce(getExplosionVector() * 20.0f);
+        button1.GetComponent<Rigidbody>().AddTorque(getExplosionVector() * 10.0f);
+        button2.GetComponent<Rigidbody>().AddTorque(getExplosionVector() * 10.0f);
+        button3.GetComponent<Rigidbody>().AddTorque(getExplosionVector() * 10.0f);
+    }   
+
+    Vector3 getExplosionVector()
+    {
+        return new Vector3(Random.Range(-20.0f, 20.0f), 50.0f, Random.Range(-20.0f, 20.0f));
+    }
+
+    void generateMaze()
+    {
         Debug.Log("Generating Maze");
-
-        //cellWidth = spawn.GetComponentInChildren<MeshRenderer>(true).bounds.size.x;
-
         MazeData maze = new MazeData(mazeWidth);
         maze.generateMaze();
-        Instantiate(spawn, getRoomLocation(mazeWidth / 2, mazeWidth / 2), spawnRotation, mazeObj.transform);
+        
         for (int j = 0; j < mazeWidth; j++)
         {
             for (int i = 0; i < mazeWidth; i++)
@@ -72,12 +109,6 @@ public class Maze : MonoBehaviour
         Instantiate(exit, getExitLocation(maze, exitOffset), Quaternion.Euler(0.0f, exitRotation, 0.0f), mazeObj.transform);
 
         Debug.Log("Done");
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     // Simply returns a vector of where a room in the given index should be in the world space

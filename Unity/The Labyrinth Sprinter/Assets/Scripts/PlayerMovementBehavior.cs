@@ -13,6 +13,7 @@ public class PlayerMovementBehavior : MonoBehaviour
 
     float sprintMod = 1.75f;
     bool grounded = false;
+    bool jumping = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -37,7 +38,10 @@ public class PlayerMovementBehavior : MonoBehaviour
         float jumpVelocity = 0.0f;
         CapsuleCollider collider = GetComponent<CapsuleCollider>();
         
-        if (jumpInput && grounded)
+        
+
+
+        if (jumpInput && grounded && !jumping)
         { 
              jumpVelocity = jumpConst;
         }
@@ -75,7 +79,18 @@ public class PlayerMovementBehavior : MonoBehaviour
         */
 
         // Decay the X and Z velocity without modifying Y
-        PlayerRigidBody.velocity = new Vector3(PlayerRigidBody.velocity.x * 0.82f, PlayerRigidBody.velocity.y, PlayerRigidBody.velocity.z * 0.82f);        
+        PlayerRigidBody.velocity = new Vector3(PlayerRigidBody.velocity.x * 0.82f, PlayerRigidBody.velocity.y, PlayerRigidBody.velocity.z * 0.82f);
+
+        // Finally, check if the jump button has been pressed or released
+        if (Input.GetButtonDown("Jump"))
+        {
+            jumping = true;
+        }
+
+        if (Input.GetButtonUp("Jump"))
+        {
+            jumping = false;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
