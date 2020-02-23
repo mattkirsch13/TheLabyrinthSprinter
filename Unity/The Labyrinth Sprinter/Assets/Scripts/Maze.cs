@@ -9,6 +9,7 @@ public class Maze : MonoBehaviour
 
     public GameObject mazeObj;
     public GameObject spawn;
+    public GameObject exit;
     public GameObject oneWay;
     public GameObject cornerWay;
     public GameObject straightWay;
@@ -29,39 +30,46 @@ public class Maze : MonoBehaviour
 
         MazeData maze = new MazeData(mazeWidth);
         maze.generateMaze();
-
+        Instantiate(spawn, getRoomLocation(mazeWidth / 2, mazeWidth / 2), spawnRotation, mazeObj.transform);
         for (int j = 0; j < mazeWidth; j++)
         {
             for (int i = 0; i < mazeWidth; i++)
             {
                 if (i == Mathf.Floor(mazeWidth / 2) && j == Mathf.Floor(mazeWidth / 2))
-                    Instantiate(spawn, (Vector3.back * cellWidth) * i + (Vector3.left * cellWidth) * j, spawnRotation, mazeObj.transform);
+                {
+                    continue;
+                }
                 else
                 {
-                    generateRoom(maze.m_maze[i + (j * mazeWidth)], (Vector3.back * cellWidth) * i + (Vector3.left * cellWidth) * j);
+                    generateRoom(maze.m_maze[i + (j * mazeWidth)], getRoomLocation(i, j));
                 }
             }
         }
         // Instantiate Exit
         Vector3 exitOffset;
+        float exitRotation;
         switch (maze.m_exitDirection)
         {
             case MazeData.Direction.North:
                 exitOffset = new Vector3(1.0f, 0.0f, 0.0f);
+                exitRotation = -90.0f;
                 break;
             case MazeData.Direction.South:
                 exitOffset = new Vector3(-1.0f, 0.0f, 0.0f);
+                exitRotation = 90.0f;
                 break;
             case MazeData.Direction.East:
                 exitOffset = new Vector3(0.0f, 0.0f, -1.0f);
+                exitRotation = 0.0f;
                 break;
             case MazeData.Direction.West:
                 exitOffset = new Vector3(0.0f, 0.0f, 1.0f);
+                exitRotation = 180.0f;
                 break;
             default:
                 throw new System.Exception("No maze exit found");
         }
-        Instantiate(spawn, (Vector3.back * cellWidth) * (maze.m_exitConnectorIdx % mazeWidth) + (Vector3.left * cellWidth) * (maze.m_exitConnectorIdx / mazeWidth) + (exitOffset * cellWidth), spawnRotation, mazeObj.transform);
+        Instantiate(exit, getExitLocation(maze, exitOffset), Quaternion.Euler(0.0f, exitRotation, 0.0f), mazeObj.transform);
 
         Debug.Log("Done");
     }
@@ -70,6 +78,21 @@ public class Maze : MonoBehaviour
     void Update()
     {
         
+    }
+
+    // Simply returns a vector of where a room in the given index should be in the world space
+    Vector3 getRoomLocation(int row, int col)
+    {
+        float totalWidth = mazeWidth * cellWidth;
+        Vector3 startingPoint = new Vector3((totalWidth / 2) - (cellWidth / 2), 0.0f, (totalWidth / 2) - (cellWidth / 2));
+        return startingPoint + (row * cellWidth * Vector3.back) + (col * cellWidth * Vector3.left);
+    }
+
+    Vector3 getExitLocation(MazeData maze, Vector3 offset)
+    {
+        float totalWidth = mazeWidth * cellWidth;
+        Vector3 startingPoint = new Vector3((totalWidth / 2) - (cellWidth / 2), 0.0f, (totalWidth / 2) - (cellWidth / 2));
+        return startingPoint + (Vector3.back * cellWidth) * (maze.m_exitConnectorIdx % mazeWidth) + (Vector3.left * cellWidth) * (maze.m_exitConnectorIdx / mazeWidth) + (offset * cellWidth);
     }
 
     void generateRoom(Cell cellData, Vector3 position)

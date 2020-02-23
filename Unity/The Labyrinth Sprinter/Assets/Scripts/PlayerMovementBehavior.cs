@@ -6,18 +6,20 @@ public class PlayerMovementBehavior : MonoBehaviour
 {
     public float movAcceleration;
     public float maxSpeed;
+    public float jumpConst;
     public Transform PlayerBodyTransf;
     public Rigidbody PlayerRigidBody;
     public GameObject maze;
 
     float sprintMod = 1.75f;
-
+    bool grounded = false;
     // Start is called before the first frame update
     void Start()
     {
+        
         float cellWidth = maze.GetComponent<Maze>().cellWidth;
         float totalWidth = maze.GetComponent<Maze>().mazeWidth * cellWidth;
-        Vector3 startPos = new Vector3((-1) * ((totalWidth / 2) - (cellWidth / 2)), 10.0f, (-1) * ((totalWidth / 2) - (cellWidth / 2)));
+        Vector3 startPos = Vector3.zero + Vector3.up * 2;
         PlayerRigidBody.position = startPos;
     }
 
@@ -31,36 +33,64 @@ public class PlayerMovementBehavior : MonoBehaviour
         bool yNeg = Input.GetButton("Left");
 
         bool sprint = Input.GetButton("Sprint");
-
+        bool jumpInput = Input.GetButton("Jump");
+        float jumpVelocity = 0.0f;
+        CapsuleCollider collider = GetComponent<CapsuleCollider>();
+        
+        if (jumpInput && grounded)
+        { 
+             jumpVelocity = jumpConst;
+        }
         // Create a "Desired" Movement Vector
-        Vector3 movementIn = new Vector3(yPos && yNeg ? 0.0f : yPos ? 1.0f : yNeg ? -1.0f : 0.0f, 0.0f, xPos && xNeg ? 0.0f : xPos ? 1.0f : xNeg ? -1.0f : 0.0f);
-
+        Vector2 movementIn = new Vector2(yPos && yNeg ? 0.0f : yPos ? 1.0f : yNeg ? -1.0f : 0.0f, xPos && xNeg ? 0.0f : xPos ? 1.0f : xNeg ? -1.0f : 0.0f);
+        Vector2 horizontal = new Vector2(PlayerRigidBody.velocity.x, PlayerRigidBody.velocity.z);
         if (sprint)
         {
-            movementIn = movAcceleration * sprintMod * Vector3.Normalize(movementIn);
-            
+            movementIn = movAcceleration * sprintMod * movementIn.normalized;
+
             // Move based off those components
-            if (Mathf.Abs(PlayerRigidBody.velocity.magnitude) < maxSpeed)
+            if (Mathf.Abs(horizontal.magnitude) >= maxSpeed)
             {
-                PlayerRigidBody.AddRelativeForce(movementIn, ForceMode.Acceleration);
+                movementIn = Vector2.zero;
             }
         }
         else
         {
-            movementIn = movAcceleration * Vector3.Normalize(movementIn);
-            
+            movementIn = movAcceleration * movementIn.normalized;
+
             // Move based off those components
-            if (Mathf.Abs(PlayerRigidBody.velocity.magnitude) < sprintMod * maxSpeed)
+            if (Mathf.Abs(horizontal.magnitude) >= sprintMod * maxSpeed)
             {
-                PlayerRigidBody.AddRelativeForce(movementIn, ForceMode.Acceleration);
+                movementIn = Vector2.zero;
             }
         }
 
+        PlayerRigidBody.AddRelativeForce(new Vector3(movementIn.x, 0.0f, movementIn.y), ForceMode.Acceleration);
+        PlayerRigidBody.velocity += new Vector3(0.0f, jumpVelocity, 0.0f);
+        /*
         if (Mathf.Abs(PlayerRigidBody.velocity.magnitude) > 1e-2f)
         {
             Debug.Log("Moving at: " + Mathf.Abs(PlayerRigidBody.velocity.magnitude));
         }
+        */
 
-        PlayerRigidBody.velocity = PlayerRigidBody.velocity * Mathf.Clamp(0.90f, 0.0f, 0.999f);        
+        // Decay the X and Z velocity without modifying Y
+        PlayerRigidBody.velocity = new Vector3(PlayerRigidBody.velocity.x * 0.82f, PlayerRigidBody.velocity.y, PlayerRigidBody.velocity.z * 0.82f);        
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.name == "floor")
+        {
+            grounded = true;
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.name == "floor")
+        {
+            grounded = false;
+        }
     }
 }
