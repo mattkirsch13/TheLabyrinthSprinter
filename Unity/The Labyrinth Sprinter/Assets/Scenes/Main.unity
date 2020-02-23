@@ -1458,6 +1458,7 @@ MonoBehaviour:
   playerBodyTransf: {fileID: 235787161}
   playerCameraTransf: {fileID: 1435410089}
   playerRigidBody: {fileID: 235787163}
+  Crumb: {fileID: 6344261476868661295, guid: ef69db3045691ef4a8b687ddef09d918, type: 3}
 --- !u!1 &1472059698
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,6 +10,7 @@ public class PlayerCameraBehavior : MonoBehaviour
     public Transform playerBodyTransf;
     public Transform playerCameraTransf;
     public Rigidbody playerRigidBody;
+    public GameObject Crumb;
 
     float xRotation = 0.0f;
 
@@ -53,5 +54,12 @@ public class PlayerCameraBehavior : MonoBehaviour
         }
         
         GetComponent<Camera>().fieldOfView = currentFOV;
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            Crumb = Instantiate(Crumb);
+            Crumb.transform.position = playerRigidBody.position;
+            Physics.IgnoreCollision(playerRigidBody.GetComponent<Collider>(), Crumb.GetComponent<Collider>());
+        }
     }
 }
